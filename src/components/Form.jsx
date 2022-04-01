@@ -23,10 +23,15 @@ class Form extends Component {
 
   handleClick = async () => {
     const { saveInfo, getPrice } = this.props;
+    const { value, description, method, tag, currency } = this.state;
     const result = await getPrice();
     saveInfo({
       id: idQuantity,
-      ...this.state,
+      value,
+      description,
+      method,
+      tag,
+      currency,
       exchangeRates: { ...result },
     });
     idQuantity += 1;
@@ -140,13 +145,13 @@ class Form extends Component {
           </label>
           <label
             htmlFor="method"
-            data-testid="method-input"
           >
             <select
               id="method"
               onChange={ this.handleChange }
               name="method"
               value={ method }
+              data-testid="method-input"
             >
               <option>Dinheiro</option>
               <option>Cartão de crédito</option>
