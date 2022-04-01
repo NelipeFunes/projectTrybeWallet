@@ -5,11 +5,15 @@ import {
   saveCurrencys,
   ADD_INFOS_EXPANSES,
   REMOVE_ITEM,
+  CHANGE_ITEM,
+  ACCEPT_CHANGE,
 } from '../actions';
 
 const initialState = {
   currencies: [],
   expenses: [],
+  isChanging: false,
+  change: [],
 };
 
 export function fetchCurrency() {
@@ -44,12 +48,31 @@ function wallet(state = initialState, action) {
   case ADD_INFOS_EXPANSES:
     return {
       ...state,
-      expenses: [...state.expenses, action.payload],
+      expenses: ([...state.expenses, action.payload]).sort((a, b) => a.id - b.id),
     };
   case REMOVE_ITEM:
     return {
       ...state,
       expenses: action.payload,
+    };
+  case CHANGE_ITEM:
+    return {
+      ...state,
+      isChanging: true,
+      change: action.payload,
+    };
+  case 'CHANGING_ITEM':
+    return {
+      ...state,
+      isChanging: false,
+    };
+  case ACCEPT_CHANGE:
+    return {
+      ...state,
+      expenses: ([...state.expenses
+        .filter((item) => item.id !== action.payload.id), action.payload])
+        .sort((a, b) => a.id - b.id),
+      isChanging: false,
     };
 
   default:

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { saveInfosExpenses } from '../actions/index';
+import { acceptChange, changingItem, saveInfosExpenses } from '../actions/index';
 import { fetchPrice } from '../reducers/wallet';
 
 let idQuantity = 0;
@@ -17,14 +17,8 @@ class Form extends Component {
       method: 'Dinheiro',
       tag: Alimentação,
       exchangeRates: {},
+      changing: false,
     };
-  }
-
-  handleChange = ({ target }) => {
-    const { value, name } = target;
-    this.setState({
-      [name]: value,
-    });
   }
 
   handleClick = async () => {
@@ -45,9 +39,60 @@ class Form extends Component {
     });
   }
 
+  handleChange = ({ target }) => {
+    const { value, name } = target;
+    const { changingInfo } = this.props;
+    changingInfo();
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  changing = () => {
+    const { changingOn } = this.props;
+    if (changingOn) {
+      const { changes } = this.props;
+      this.setState({
+        value: changes[0].value,
+        description: changes[0].description,
+        currency: changes[0].currency,
+        method: changes[0].method,
+        tag: changes[0].tag,
+        exchangeRates: changes[0].exchangeRates,
+        changing: true,
+        id: changes[0].id,
+      });
+    }
+  }
+
+  handleEditClick = () => {
+    const { acceptInfo } = this.props;
+    const { value, description, method, tag, currency, id, exchangeRates } = this.state;
+    acceptInfo({
+      value,
+      description,
+      method,
+      tag,
+      currency,
+      id,
+      exchangeRates,
+    });
+    this.setState({
+      value: 0,
+      description: '',
+      method: 'Dinheiro',
+      currency: 'USD',
+      tag: Alimentação,
+      changing: false,
+    });
+  };
+
   render() {
     const { currencies } = this.props;
-    const { value, description, method } = this.state;
+    setTimeout(() => {
+      this.changing();
+    }, 100);
+    const { value, description, method, tag, currency, changing } = this.state;
     return (
       <div>
         <form>
@@ -79,6 +124,8 @@ class Form extends Component {
               id="currencies"
               onChange={ this.handleChange }
               name="currency"
+              value={ currency }
+              data-testid="currency-input"
             >
               { currencies.map((currencie) => (
                 <option
@@ -112,6 +159,7 @@ class Form extends Component {
               data-testid="tag-input"
               onChange={ this.handleChange }
               name="tag"
+              value={ tag }
             >
               <option>{Alimentação}</option>
               <option>Lazer</option>
@@ -120,14 +168,20 @@ class Form extends Component {
               <option>Saúde</option>
             </select>
           </label>
-          <button
-            type="button"
-            id="addDespesa"
-            onClick={ this.handleClick }
-          >
-            Adicionar despesa
+          {changing
+            ? (
+              <button
+                type="button"
+                onClick={ this.handleEditClick }
+                data-testid="edit-btn"
+              >
+                Editar despesa
 
-          </button>
+              </button>)
+            : (
+              <button type="button" id="addDespesa" onClick={ this.handleClick }>
+                Adicionar despesa
+              </button>)}
         </form>
       </div>
     );
@@ -136,17 +190,31 @@ class Form extends Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  changingOn: state.wallet.isChanging,
+  changes: state.wallet.change,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   saveInfo: (payload) => dispatch(saveInfosExpenses(payload)),
   getPrice: (payload) => dispatch(fetchPrice(payload)),
+  changingInfo: () => dispatch(changingItem()),
+  acceptInfo: (payload) => dispatch(acceptChange(payload)),
 });
 
 Form.propTypes = {
   currencies: PropTypes.arrayOf.isRequired,
   saveInfo: PropTypes.func.isRequired,
   getPrice: PropTypes.func.isRequired,
+  changingOn: PropTypes.func.isRequired,
+  changes: PropTypes.shape({
+    value: PropTypes.number,
+    description: PropTypes.string,
+    method: PropTypes.string,
+    currency: PropTypes.string,
+    tag: PropTypes.string,
+  }).isRequired,
+  changingInfo: PropTypes.func.isRequired,
+  acceptInfo: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
