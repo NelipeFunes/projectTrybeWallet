@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class Chart extends React.Component {
   render() {
@@ -17,6 +18,18 @@ class Chart extends React.Component {
           <th>Moeda de conversão</th>
           <th>Editar/Excluir</th>
         </tr>
+        {infos.map((info) => (
+          <tr key={ info.id }>
+            <td>{info.description}</td>
+            <td>{info.tag}</td>
+            <td>{info.method}</td>
+            <td>{Number(info.value).toFixed(2)}</td>
+            <td>{info.currency === 'USD' ? 'Dólar Comercial' : 'Euro' }</td>
+            <td>{Number(info.exchangeRates[info.currency].ask).toFixed(2)}</td>
+            <td>{info.value * info.exchangeRates[info.currency].ask}</td>
+            <td>Real</td>
+          </tr>
+        ))}
       </table>
     );
   }
@@ -28,12 +41,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps)(Chart);
 
-// {infos.map((info) => (
-//   <div key={ info.id }>
-//     <p>{info.description}</p>
-//     <p>{info.tag}</p>
-//     <p>{info.method}</p>
-//     <p>{info.}</p>
-//     <p>{info.value}</p>
-//   </div>
-// ))}
+Chart.propTypes = {
+  infos: PropTypes.arrayOf.isRequired,
+};
