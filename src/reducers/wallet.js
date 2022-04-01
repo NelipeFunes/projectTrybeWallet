@@ -1,4 +1,10 @@
-import { GET_CURRENCY, getCurrency, SAVE_CURRENCYS, saveCurrencys } from '../actions';
+import {
+  GET_CURRENCY,
+  getCurrency,
+  SAVE_CURRENCYS,
+  saveCurrencys,
+  ADD_INFOS_EXPANSES,
+} from '../actions';
 
 const initialState = {
   currencies: [],
@@ -15,6 +21,14 @@ export function fetchCurrency() {
   };
 }
 
+export const fetchPrice = () => async (dispatch) => {
+  dispatch(getCurrency());
+  const url = 'https://economia.awesomeapi.com.br/json/all';
+  return fetch(url)
+    .then((response) => response.json())
+    .then((data) => Promise.resolve(data));
+};
+
 function wallet(state = initialState, action) {
   switch (action.type) {
   case GET_CURRENCY:
@@ -25,6 +39,11 @@ function wallet(state = initialState, action) {
     return {
       ...state,
       currencies: action.currencys,
+    };
+  case ADD_INFOS_EXPANSES:
+    return {
+      ...state,
+      expenses: [...state.expenses, action.payload],
     };
 
   default:
