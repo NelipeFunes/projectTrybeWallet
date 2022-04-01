@@ -4,15 +4,15 @@ body {
 
 .forms {
   align-items: center;
+  border: 2px solid black;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
-  border: 2px solid black;
   justify-content: center;
-  max-height: 100%;
-  border-radius: 10px;
-  width: 19%;
   margin-left: 700px;
   margin-top: 250px;
+  max-height: 100%;
+  width: 19%;
 }
 
 .enableBtn {
