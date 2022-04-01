@@ -4,6 +4,7 @@ import {
   SAVE_CURRENCYS,
   saveCurrencys,
   ADD_INFOS_EXPANSES,
+  REMOVE_ITEM,
 } from '../actions';
 
 const initialState = {
@@ -44,6 +45,11 @@ function wallet(state = initialState, action) {
     return {
       ...state,
       expenses: [...state.expenses, action.payload],
+    };
+  case REMOVE_ITEM:
+    return {
+      ...state,
+      expenses: action.payload,
     };
 
   default:

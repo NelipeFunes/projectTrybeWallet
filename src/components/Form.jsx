@@ -14,7 +14,7 @@ class Form extends Component {
       value: 0,
       description: '',
       currency: 'USD',
-      method: '',
+      method: 'Dinheiro',
       tag: Alimentação,
       exchangeRates: {},
     };
@@ -39,6 +39,7 @@ class Form extends Component {
     this.setState({
       value: 0,
       description: '',
+      method: 'Dinheiro',
       currency: 'USD',
       tag: Alimentação,
     });
