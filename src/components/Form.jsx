@@ -14,7 +14,7 @@ class Form extends Component {
       value: 0,
       description: '',
       currency: 'USD',
-      method: 'Dinheiro',
+      method: '',
       tag: Alimentação,
       exchangeRates: {},
     };
