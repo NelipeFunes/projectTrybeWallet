@@ -6,7 +6,7 @@ class Header extends React.Component {
   render() {
     const { email } = this.props;
     return (
-      <div className="header">
+      <div>
         <h3 data-testid="email-field">{ email }</h3>
         <h3 data-testid="total-field">0</h3>
         <h3 data-testid="header-currency-field">BRL</h3>
