@@ -1,0 +1,47 @@
+.Tabela {
+  text-align: center;
+  width: 100%;
+}
+
+.header {
+  background-color: darkgrey;
+  box-shadow: 0 0 0 5px darkgrey, inset 0 10px 27px -8px #141414,
+    inset 0 -10px 27px -8px black, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+  width: 100%;
+}
+
+.headerList {
+  font-size: 20px;
+  height: 40px;
+}
+
+
+.tableRow {
+  background-color: #2a2727;
+  border: none;
+  border-bottom: 3px solid darkgrey;
+  color: white;
+  font-size: 20px;
+  height: 12px;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.deleteBtn {
+  color: red;
+}
+
+.editBtn {
+  color: blue;
+}
+
+.editBtn , .deleteBtn {
+  background-color: #141414;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 5px;
+}
+

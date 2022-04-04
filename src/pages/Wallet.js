@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import { fetchCurrency } from '../reducers/wallet';
 import Form from '../components/Form';
 import Chart from '../components/Chart';
+import './Wallet.css';
 
 class Wallet extends React.Component {
   componentDidMount() {
@@ -21,7 +22,7 @@ class Wallet extends React.Component {
         <nav>
           <Form />
         </nav>
-        <main>
+        <main className="table">
           <Chart />
         </main>
       </div>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { acceptChange, changingItem, saveInfosExpenses } from '../actions/index';
 import { fetchPrice } from '../reducers/wallet';
+import './Form.css';
 
 let idQuantity = 0;
 const Alimentação = 'Alimentação';
@@ -100,11 +101,12 @@ class Form extends Component {
     const { value, description, method, tag, currency, changing } = this.state;
     return (
       <div>
-        <form>
+        <form className="Forms">
           <label htmlFor="Despesa">
             Valor:
             <input
               name="value"
+              className="input"
               type="number"
               id="Despesa"
               value={ value }
@@ -116,6 +118,7 @@ class Form extends Component {
             Descrição:
             <input
               name="description"
+              className="input"
               type="text"
               value={ description }
               id="Descrição"
@@ -127,6 +130,7 @@ class Form extends Component {
             Moeda
             <select
               id="currencies"
+              className="input"
               onChange={ this.handleChange }
               name="currency"
               value={ currency }
@@ -149,6 +153,7 @@ class Form extends Component {
             <select
               id="method"
               onChange={ this.handleChange }
+              className="input"
               name="method"
               value={ method }
               data-testid="method-input"
@@ -162,6 +167,7 @@ class Form extends Component {
             <select
               id="whatFor"
               data-testid="tag-input"
+              className="input"
               onChange={ this.handleChange }
               name="tag"
               value={ tag }
@@ -177,6 +183,7 @@ class Form extends Component {
             ? (
               <button
                 type="button"
+                className="Button"
                 onClick={ this.handleEditClick }
                 data-testid="edit-btn"
               >
@@ -184,7 +191,12 @@ class Form extends Component {
 
               </button>)
             : (
-              <button type="button" id="addDespesa" onClick={ this.handleClick }>
+              <button
+                type="button"
+                id="addDespesa"
+                className="Button"
+                onClick={ this.handleClick }
+              >
                 Adicionar despesa
               </button>)}
         </form>

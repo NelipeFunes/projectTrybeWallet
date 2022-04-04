@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { removeItem, changeItem } from '../actions/index';
+import './Chart.css';
 
 class Chart extends React.Component {
   handleClick = ({ target: { id } }) => {
@@ -19,9 +20,9 @@ class Chart extends React.Component {
   render() {
     const { infos } = this.props;
     return (
-      <table>
-        <thead>
-          <tr>
+      <table className="Tabela">
+        <thead className="header">
+          <tr className="headerList">
             <th>Descrição</th>
             <th>Tag</th>
             <th>Método de pagamento</th>
@@ -33,9 +34,9 @@ class Chart extends React.Component {
             <th>Editar/Excluir</th>
           </tr>
         </thead>
-        {infos.map((info) => (
-          <tbody key={ info.id }>
-            <tr>
+        <tbody>
+          {infos.map((info) => (
+            <tr key={ info.id } className="tableRow">
               <td>{info.description}</td>
               <td>{info.tag}</td>
               <td>{info.method}</td>
@@ -50,11 +51,13 @@ class Chart extends React.Component {
                   type="button"
                   id={ info.id }
                   onClick={ this.handleEdit }
+                  className="editBtn"
                 >
                   Editar
                 </button>
                 <button
                   data-testid="delete-btn"
+                  className="deleteBtn"
                   type="button"
                   id={ info.id }
                   onClick={ this.handleClick }
@@ -63,8 +66,8 @@ class Chart extends React.Component {
                 </button>
               </td>
             </tr>
-          </tbody>
-        ))}
+          ))}
+        </tbody>
 
       </table>
     );
